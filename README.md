@@ -292,6 +292,18 @@ Just throw in an fourth module like so:
 You don't need to specify `First` because the dependency mechanism will do that for you.
 
 
+How do I minify stuff / put it all together?
+-------------------------------------------------------------------------------
+
+That depends. Firstly the module format enables heavy minification because there are hardly global variables which need to keep their names. (And it is best practice to keep it that way. So put most of your code in the private area of a module.
+
+Then just use your minification-tool of choise or any online minification service.
+
+If you have written many modules and want to minify them you simply can concatenate them in one file and minify that. The order in which you do that is not important. Put jsinit.js in there, too. But you don't have to. Sometimes it is easier to find bugs if you have a file to point to. An sometimes (dependent on your setup) it is faster to have some more files which can be loaded in parallel.
+
+There is a light redundancy if putting it all in one file: `"use strict"` and `var jQInit = jQInit || []` will be there multiple times. Normally gzip will take care of that and it will make no big difference. But if every byte counts you could put jqinit.js in first and remove all occurrences both of those snippets.
+
+
 What is the state of this project?
 -------------------------------------------------------------------------------
 
