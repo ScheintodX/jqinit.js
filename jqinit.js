@@ -21,15 +21,15 @@ var jQInit = (function( _jQInit ) {
 	var $, jQInit = { 
 
 			// Push a new Module description
-			push: function( arg ) {
-				_jQInit.push( arg );
+			push: function( description ) {
+				_jQInit.push( description );
 				onPush();
 			},
 
 			// Register an otherwise created module.
 			// This is used for jqinit.loader.js to provide dependencies
-			register: function( name, data ){
-				jQInit[ name ] = data;
+			register: function( name, module ){
+				jQInit[ name ] = module;
 				onPush(); // Allow other modules to initialize
 			}
 		}

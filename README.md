@@ -146,14 +146,14 @@ How do I do?
 What to put in my html5 page?
 -------------------------------------------------------------------------------
 
-Simple. Just put the jQuery and your own modules in `<script>` tags in the header. This should look like:
+Simple. Just put the jQuery, jqinit.js and your own modules in `<script>` tags in the header. This should look like:
 
 	<script src="//google/jQuery" async></script>
 	<script src="/js/jqinit.js" async></script>
 	<script src="/js/module1.js async></script>
 	<script src="/js/module2.js async></script>
 
-It is a good idea to put jQuery first but it makes no big difference. The whole purpose of this thing is that it makes no difference.
+It is a good idea to put jQuery first but it makes no big difference. The whole purpose of this lib is that it makes no difference.
 
 
 How do I write a module?
@@ -170,7 +170,7 @@ mymodule.js:
 		// code goes here
 	}
 
-But for your convenience I have although a basic pattern for you which shows a little mour you can do:
+But for your convenience I have although a basic pattern for you which shows a little more what you can do:
 
 mymodule.js:
 
@@ -217,18 +217,21 @@ So to tell jQInit what is needed just put your dependencies in like that:
 
 and jQInit knows that these modules have to be initialized first.
 
-If you not only want them to be initialized but also want to use them, just put them as arguments in the creator function:
+If you not only want them to be initialized but also want to use them, just put them as arguments in the creator function
+and their public methods will be available:
 
 	jQInit.push( [ 'MyModule', 'First', 'Second', function( $, first, second ) {
 
 		first.doSomething();
+
 		second.doSomethingelse();
+	}
 
 
 How do I load jQueryUI / jQueryMobile etc.?
 -------------------------------------------------------------------------------
 
-This one is a bit tricky. Since they don't follow this pattern they can't be loaded asynchronously right now. This could improve if the jQuey people decided to put a loader like this directly in jQuery. For now you can use `jqinit.loader.js` in that way:
+This one is a bit tricky. Since they don't follow this pattern they can't be loaded asynchronously right away. This could improve if the jQuey people decided to put a loader like this directly in jQuery. For now you can use jqinit.loader.js` in that way:
 
 
 loadlibs.js:
@@ -252,14 +255,14 @@ By the way: have a look at jqinit.loader.js code. There is not much to it. It it
 And when I need jQueryUI / jQueryMobile for my Modules to work?
 -------------------------------------------------------------------------------
 
-Feat not. jqinit.loder.js to the rescue. As you can see in the code above evere dependency you load gets a unique name. For the sake of this example we named them `JQuery.Mobile` and `JQuery.Validate` but you can name them whatever you want.
+Fear not. `jqinit.loder.js` to the rescue. As you can see in the code above every dependency you load gets a unique name. For the sake of this example we named them `JQuery.Mobile` and `JQuery.Validate` but you can name them whatever you want.
 
 The only other thing you have to do is put them into your module as dependency like so:
 
 	jQInit.push( [ 'MyModule', 'JQuery.Mobile', 'JQuery.Validate', function( $, first, second ) { ...
 
 
-How do i access my Module / check if my module has been loaded?
+How do I access my Module / check if my module has been loaded?
 -------------------------------------------------------------------------------
 
 So know you have loaded your module and returned some structure from it. But how to access it anyway?
@@ -326,6 +329,16 @@ There is room for improvement:
 Firstly not very much has been done to reduce size. Currently readability matters more. But again: There is nothing here to stop you shrinking it.
 
 Secondly: I'm not the best Javascript coder under the sun. So if you find something which can be written more clearly / faster / better / greater just do it and send me your patch. If it doesn't extend the scope I will gladly put it in. 
+
+
+How do I notify jQInit that I have loaded another dependency which doesn't follow pattern?
+-------------------------------------------------------------------------------
+
+This is what `jqinit.loader.js` does. Remember: jqinit replaces the array you created in your modules with it's own structure where it defines a `push` function in order to be compatible with array.
+
+In addition to that function it although defines a `register` function with this syntax: `register( name, module ). All that this does is remember the provided modules under the given name (as it would have done with push and the returned module from the creator function) and initialize modules which may depend on it.
+
+This is exacly what `jqinit.loader.js` does: load a javascript file and register it's result under the name given.
 
 
 And what is the image about?
