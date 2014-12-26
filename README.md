@@ -7,7 +7,7 @@ Just another "Loader" for jQuery?
 
 Quiet the opposite. There are numerous loaders for JavaScript. This one is different in that it doesn't load anything at all. Instead it lets the browser do all loading (something a browser is very good at) but manages the correct initialization of your modules. As a bonus you get some form of depencency injection. And of cause jqinit.js can be loaded asynchronously, too!
 
-![Comic](comic.svg)
+![Comic](comic.png)
 
 I know that there are solutions out there which are in wide use. I have looked at many of them and they didn't see them fit my needs.
 
