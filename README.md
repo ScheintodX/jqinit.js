@@ -1,4 +1,3 @@
-<img src="https://raw.githubusercontent.com/ScheintodX/jqinit.js/master/comic.svg" style="width: 300px; height: 300px; float: left"/>
 
 Just another "Loader" for jQuery?
 ===============================================================================
@@ -6,7 +5,9 @@ Just another "Loader" for jQuery?
 ***PRE ALHA***
 (just to be sure)
 
-Quiet the opposite. There are numerous loaders for JavaScript. This one is different in that it doesn't load anything at all. Instead it lets the browser do all loading (something a browser is very good at) but manages the correct initialization of your modules. As a bonus you get some form of depencency injection.
+Quiet the opposite. There are numerous loaders for JavaScript. This one is different in that it doesn't load anything at all. Instead it lets the browser do all loading (something a browser is very good at) but manages the correct initialization of your modules. As a bonus you get some form of depencency injection. And of cause jqinit.js can be loaded asynchronously, too!
+
+![Comic](comic.svg)
 
 I know that there are solutions out there which are in wide use. I have looked at many of them and they didn't see them fit my needs.
 
