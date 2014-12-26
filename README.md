@@ -315,3 +315,13 @@ There is room for improvement:
 Firstly not very much has been done to reduce size. Currently readability matters more. But again: There is nothing here to stop you shrinking it.
 
 Secondly: I'm not the best Javascript coder under the sun. So if you find something which can be written more clearly / faster / better / greater just do it and send me your patch. If it doesn't extend the scope I will gladly put it in. 
+
+
+And what is the image about?
+-------------------------------------------------------------------------------
+
+The image is my recreation of an panel from the famous graphic novel: "Asterix and the Goths" from René Goscinny and Albert Uderzo. Asterix and his friend Obelix accompany thier druid "Getafix" to the annual druid' conference where the druids present their best work. One of them manages to reduce soup to just a powder which is as he says easier to carry around then a cauldron. Hinted that he still needs a cauldron to recreate his soup he tells the amazed audience that he found a way to even reduce the cauldron to a powder.
+
+This is meant as a reference to the "asynchronous loader" which itself is loaded asynchronously. 
+
+I can't put the original image in here because of copyright laws which forbid citations if they are only for entertaining purposes -- at least by german laws. So I had to recreate it.
