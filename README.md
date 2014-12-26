@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/ScheintodX/jqinit.js/master/comic.svg" style="width: 300px; height: 300px; float: left"/>
+
 Just another "Loader" for jQuery?
 ===============================================================================
 
