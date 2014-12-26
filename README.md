@@ -159,7 +159,18 @@ It is a good idea to put jQuery first but it makes no big difference. The whole 
 How do I write a module?
 -------------------------------------------------------------------------------
 
-I have a basic pattern for you which you can copy and put your code into:
+The simplest possible module would look like this:
+
+mymodule.js:
+
+	var jQInit = jQInit || [];
+
+	jQInit.push( [ 'MyModule', function( $ ) {
+
+		// code goes here
+	}
+
+But for your convenience I have although a basic pattern for you which shows a little mour you can do:
 
 mymodule.js:
 
@@ -322,6 +333,6 @@ And what is the image about?
 
 The image is my recreation of an panel from the famous graphic novel: "Asterix and the Goths" from René Goscinny and Albert Uderzo. Asterix and his friend Obelix accompany thier druid "Getafix" to the annual druid' conference where the druids present their best work. One of them manages to reduce soup to just a powder which is as he says easier to carry around then a cauldron. Hinted that he still needs a cauldron to recreate his soup he tells the amazed audience that he found a way to even reduce the cauldron to a powder.
 
-This is meant as a reference to the "asynchronous loader" which itself is loaded asynchronously. 
+This is meant as a reference to the "asynchronous loader" which itself is loaded asynchronously itself.
 
 I can't put the original image in here because of copyright laws which forbid citations if they are only for entertaining purposes -- at least by german laws. So I had to recreate it.
