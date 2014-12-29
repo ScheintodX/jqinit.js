@@ -16,9 +16,7 @@ Try it out:
 -------------------------------------------------------------------------------
 In a new browser window open the console and go to: 
 
-```
-https://rawgit.com/ScheintodX/jqinit.js/master/test.html
-```
+(https://rawgit.com/ScheintodX/jqinit.js/master/test.html)
 
 Quickstart
 -------------------------------------------------------------------------------
