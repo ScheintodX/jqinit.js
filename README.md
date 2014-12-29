@@ -412,21 +412,49 @@ RequireJS is good if you:
  * use node.js
  * have many libraries from many different sources
  * want to be able to configure things
+ * are forced to use what's called "standard" (AMD in this case)
 
 jqinit.js is good if you:
  * do small to large websites where size does matter.
  * care about loading speed. E.g. for mobile in slow networks.
  * have mostly jQuery and your own modules and a few others which you might be able to patch. 
  * don't want to care to much about configuration but want something that "just works".
+ * are free to use what works for you
+
+
+Can I combine jqinit and RequireJS?
+-------------------------------------------------------------------------------
+
+Even though I haven't looked deep into this, I see no real reason why you shouldn't. There is nothing what could stop you loading jqinit modules with RequireJS.
+
+Perhaps there will be an RequireJS adaptor to jqinit sometimes.
+
+
+Why not use AMD module format
+-------------------------------------------------------------------------------
+
+I would love to. Problem is: It won't work.
+
+AMD uses the `define()` function to define a module. In order to be able to use this it has to be defined before the module is loaded. So RequireJS needs to be loaded before any other module. This prevents it from beeing loaded `async`.
+
+
+Why not a general purpose loader but only for jQuery?
+-------------------------------------------------------------------------------
+
+First of all: It's not a loader and not intended to be one. 
+
+That said: The main reason it's only for jQuery is, that I only need it to be for jQuery. I think most people today use it for jQuery. Other frameworks (e.g. Angular) have their own ideas of how a module should look like and already have their DI in place there. 
+
+Finally I'm still hoping that the jQuery people would put a system like it in the core sometimes. As fewer it does as higher the possibility for such a move is.
 
 
 And what is the image about?
 -------------------------------------------------------------------------------
 
-The image is my recreation of an panel from the famous graphic novel: "Asterix and the Goths" from René Goscinny and Albert Uderzo. Asterix and his friend Obelix accompany thier druid "Getafix" to the annual druid' conference where the druids present their best work. One of them manages to reduce soup to just a powder which is as he says easier to carry around than a cauldron. Hinted that he still needs a cauldron to recreate his soup he tells the amazed audience that he found a way to even reduce the cauldron to a powder.
+Since you asked: The image is my recreation of an panel from the famous graphic novel: "Asterix and the Goths" from René Goscinny and Albert Uderzo. Asterix and his friend Obelix accompany thier druid "Getafix" to the annual druid' conference where the druids present their best work. One of them manages to reduce soup to just a powder which is as he says easier to carry around than a cauldron. Hinted that he still needs a cauldron to recreate his soup he tells the amazed audience that he found a way to even reduce the cauldron to a powder.
 
 This is meant as a reference to the "asynchronous loader" which is loaded asynchronously itself.
 
-In the end the winner is of cause Getafix with his magic potion. So the powdered cauldron wasn't so ingenious after all.
+In the end the winner is of cause Getafix with his magic potion. So the powdered cauldron wasn't so ingenious after all. (I wonder why?)
 
 I can't put the original image in here because of copyright laws which forbid citations if they are only for entertaining purposes -- at least by german laws. So I had to recreate it.
