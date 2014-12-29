@@ -9,7 +9,7 @@ jQInit.push( [ 'myModule1', function( $ ) {
 	$(function(){
 
 		var $out = $('#out');
-		$out.text( $out.text + "Module1 dom ready\n" );
+		$out.text( $out.text() + "Module1 dom ready\n" );
 
 	} );
 
