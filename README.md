@@ -2,12 +2,11 @@
 Everything ASYNC
 ===============================================================================
 
- * jsinit.js allows 'async' loading of *every* script in your html header
+ * jsinit.js allows 'async' loading of *every* script in your html header. (Even itself!)
  * It is pretty small (about 500 Byte minified)
  * It provides dependency checking and some basic dependency injection
- * Itself can be loaded asnc
- * It can be extended to do more
- * It's free as in tramp
+ * It does nothing which isn't really needed but it can be extended to do more
+ * It's free as in 'free as a tramp'
 
 ***ALHA***
 (just to be sure)
@@ -17,6 +16,8 @@ Try it out:
 In a new browser window open the console and go to: 
 
 (https://rawgit.com/ScheintodX/jqinit.js/master/test.html)
+
+You might want to disable caching and turn some throttling on (or use a GRPS net) to see the effect.
 
 Quickstart
 -------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Quickstart
 	} ] );
 ```
 
- 4. done. (really! Want to know more? read on)
+ 4. done. (Really! Want to know more? Read on!)
 
 
 "Just another JavaScript loader"?
@@ -88,19 +89,19 @@ So how does it look like?
 
 Simple: Put your stuff in the html header like you are used to, but add async:
 
-	<script src="//google/jQuery" async></script>
-	<script src="/js/jqinit.js" async></script>
-	<script src="/js/module1.js async></script>
-	<script src="/js/module2.js async></script>
+	<script async src="//google/jQuery"></script>
+	<script async src="/js/jqinit.js"></script>
+	<script async src="/js/module1.js"></script>
+	<script async src="/js/module2.js"></script>
 
 Looks simple. But just to make a point, you can have written it this way, too:
 
-	<script src="/js/module1.js async></script>
-	<script src="/js/module2.js async></script>
-	<script src="/js/jqinit.js" async></script>
-	<script src="//google/jQuery" async></script>
+	<script async src="/js/module1.js"></script>
+	<script async src="/js/module2.js"></script>
+	<script async src="/js/jqinit.js"></script>
+	<script async src="//google/jQuery"></script>
 
-or any other order you wanted. (Think about it. This is the very nature of async loading ...)
+or any other order you want. (Think about it. This is the very nature of *async* loading ...)
 
 So how can a js module do this without being loaded itself? Sure there is a gotcha ... and well ... you have to do "something" of cause.
 
@@ -141,9 +142,15 @@ and put our module in:
 
 *And that's it.* Yes right. There is nothing more you have to do in a module. This one can be loaded asynchronously.
 
+
+How does it work?
+-------------------------------------------------------------------------------
+
 So what is missing now? The magic of cause. This comes in when look at what jqinit.js does:
 
 For starters jQInit itself follows normal module pattern (of cause it doesn't need to register itself):
+
+Let's have a look into it. This is the most important part:
 
 jQInit.js:
 
@@ -152,38 +159,47 @@ jQInit.js:
 		// in case we are executed first
 		_jQInit = _jQInit || [];
 
-		// more stuff which is needed to work
+		// initialize dependencies which are already there
+		initializeModulesIfDependenciesAreMet();
 
 		// do the magic:
 		return {
+			// Simulate an array
 			push: function( module ) {
 
 				// Store in array
 				_jQInit.push( module );
 
+				// intialize newly pushed modules and others which are waiting for their dependencie:
 				initializeModulesIfDependenciesAreMet();
 			}
 		}
 
 	} )( jQInit );
 
-So it essentially swaps the array we used in the modules (remember: if it doesn't existed we simply created one) with its own structure and simulates the only array operation we need. So if this is executed before some of our modules are loaded the syntax to register them stays the same but now we can initialize them right away.
+So it essentially swaps the array we used in the modules (remember: if it doesn't existed we simply created one) with its own structure.
+
+Then it simulates the only array operation we need: `push()`. So if it is executed before some of our modules are loaded the method to register them stays the same but now we can initialize them right away.
 
 
 Limitations / Possible extensions:
 -------------------------------------------------------------------------------
 
-Currently this doesn't work for jQuery Modules like Mobile or UI. This is primary of cause because they don't follow the module syntax like it would be needed.
-With some hackery it is still possible but with some limitations: There is a loader called jqinit.loader.js which uses jQuery to load them and is only a few bytes long. The main drawback is that the modules are loaded after jQuery is done loading. So no async here. Of cause this situation would improve greatly if jqinit would be integrated in jQuery and the modules would follow module semantics.
+Currently this doesn't work without some "hackery" for jQuery Modules like Mobile or UI. This is because they don't follow any module syntax like it would be needed.
+Therefor an extra module is provided: jqinit.loader.js.
+It uses jQuery to load them and is only a few bytes long. The main drawback is that the modules's loading is delayed until jQuery is done loading. This is needed because the modules need jQuery to be there before they can start executing. So there is a slight delay here. Of cause this situation would improve greatly if jqinit would be absorbed in jQuery itself and the jQuery modules would follow it's module semantics.
 
-An addition to this and something I intend to look into further is a way of passing content loaded via ajax to the modules so that they can do initialization on it.
+Some jQuery plugins (e.g. mobile) must be configured before they are loaded/executed. There should be a standard way for this kind of stuff. Currently one can use jqinit.loader.js to achieve this.
 
-Some jQuery plugins (e.g. mobile) must be configured before they are loaded/executed. There should be a standard way for this kind of stuff. Currently one can use jqinit.loader.js to achieve this. But only async (see above).
-
-One possible extension could be a simple way of loading modules while the application is already running. With the this mechanism it is already as simple as `$('head').append( '<script src="/js/somescript.js"></script>' )` but it would certainly be nicer to have a function for this like: `$.load( "/js/somescript.js" );` or so. But this is as easily implemented in a plugin. s. jqinit.loader.js
+One possible extension could be a simple way of loading modules while the application is already running. In the current state it is already as simple as `$('head').append( '<script src="/js/somescript.js"></script>' )` or `jQuery.getScript( 'js/somescript.js' )`. jqinit.loader.js provides another such a function (`Loader.load()`). Most probably that's already enough.
 
 Something I haven't even begun to think about is "dependency-loading". So there is currently no external definition of dependencies on a per file-basis. I like it this way because it keeps things simple but one could think about having some module-definition like: `{ ModA: "/js/moda.js", ModB: ... }` and have jQInit load them on demand according to dependencies. This certainly makes only sense for modules which aren't loaded anyway. But it could provide useful for large apps. But I think this could be added easily as plugin if needed.
 
+Something I intend to look into further is a way of passing content loaded via ajax/Loader to the modules so that they can do (re)initialization on it.
+
+There could be a need to "unload" modules. Let me know if you'd need that.
+
+There are many things e.g. RequireJS can do what jqinit.js cannot. This is on purpose because we want to keep it as small as possible.
 
 How do I do?
 ===============================================================================
@@ -384,6 +400,24 @@ This is what `jqinit.loader.js` does. Remember: jqinit replaces the array you cr
 In addition to that function it although defines a `register` function with this syntax: `register( name, module ). All that this does is remember the provided modules under the given name (as it would have done with push and the returned module from the creator function) and initialize modules which may depend on it.
 
 This is exacly what `jqinit.loader.js` does: load a javascript file and register it's result under the name given.
+
+
+What are the main differences / advantages via RequireJS
+-------------------------------------------------------------------------------
+
+RequireJS has been there for a long while and it's great. It can do many things jqinit.js cannot. But this is on purpose because it followes another scope than jqinit.js.
+
+RequireJS is good if you:
+ * do large web application where it's additional size doesn't matter 
+ * use node.js
+ * have many libraries from many different sources
+ * want to be able to configure things
+
+jqinit.js is good if you:
+ * do small to large websites where size does matter.
+ * care about loading speed. E.g. for mobile in slow networks.
+ * have mostly jQuery and your own modules and a few others which you might be able to patch. 
+ * don't want to care to much about configuration but want something that "just works".
 
 
 And what is the image about?
