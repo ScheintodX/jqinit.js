@@ -16,7 +16,9 @@ Try it out:
 -------------------------------------------------------------------------------
 In a new browser window open the console and go to: 
 
-	https://rawgit.com/ScheintodX/jqinit.js/master/test.html
+```
+https://rawgit.com/ScheintodX/jqinit.js/master/test.html
+```
 
 Quickstart
 -------------------------------------------------------------------------------
@@ -25,13 +27,16 @@ Quickstart
 
  2. put it and all your modules in the html header like so: (order doesn't matter)
 
+```
 	<script async src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script async src="//rawgit.com/ScheintodX/jqinit.js/master/jqinit.js"></script>
 	<script async src="js/mymodule1.js"></script>
 	<script async src="js/mymodule2.js"></script>
+```
 
  3. build your modules like this:
 	
+```
 	var jQInit = jQInit || [];
 
 	jQInit.push( [ 'myModule1', function( $ ) {
@@ -39,6 +44,7 @@ Quickstart
 		// do stuff including jQuery
 
 	} ] );
+```
 
  4. done. (really! Want to know more? read on)
 
