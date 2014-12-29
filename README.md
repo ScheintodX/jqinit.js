@@ -1,9 +1,31 @@
 
-Just another "Loader" for jQuery?
+Everything ASYNC
 ===============================================================================
 
-***PRE ALHA***
+ * jsinit.js allows 'async' loading of *every* script in your html header
+ * It is pretty small (about 500 Byte minified)
+ * It provides dependency checking and some basic dependency injection
+ * Itself can be loaded asnc
+ * It can be extended to do more
+ * It's free as in tramp
+
+***ALHA***
 (just to be sure)
+
+Quickstart
+-------------------------------------------------------------------------------
+
+ 1. download <a href="jqinit.js">jqinit.js</a> and put it somewhere (or reference it directly here from github to try it out)
+ 2. put it and all your modules in the html header like so:
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script async src="https://raw.githubusercontent.com/ScheintodX/jqinit.js/master/jqinitext.js"></script>
+	<script async src="https://raw.githubusercontent.com/ScheintodX/mymodule1.js/master/jqinitext.js"></script>
+	<script async src="https://raw.githubusercontent.com/ScheintodX/jqinit.js/master/mymodule2.js"></script>
+h:
+
+
+"Just another JavaScript loader"?
+-------------------------------------------------------------------------------
 
 Quiet the opposite. There are numerous loaders for JavaScript. This one is different in that it doesn't load anything at all. Instead it lets the browser do all loading (something a browser is very good at) but manages the correct initialization of your modules. As a bonus you get some form of depencency injection. And of cause jqinit.js can be loaded asynchronously, too!
 

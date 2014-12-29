@@ -76,7 +76,7 @@ var jQInit = (function( _jQInit ) {
 
 				var ok = createModule( modDesc );
 
-				console.debug( ok, modDesc );
+				//console.debug( ok, modDesc );
 
 				if( ok ) done.push( modDesc );
 				else waiting.push( modDesc );
