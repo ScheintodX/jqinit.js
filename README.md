@@ -21,26 +21,26 @@ In a new browser window open the console and go to:
 Quickstart
 -------------------------------------------------------------------------------
 
- 1. download <a href="jqinit.js">jqinit.js</a> and put it somewhere (or reference it directly here from github to try it out)
+ 1. download <a href="jqinit.js">jqinit.js</a> and put it somewhere (or reference it directly from rawgit.com to try it out. s. below)
 
- 2. put it and all your modules in the html header like so: (but order doesn't matter)
+ 2. put it and all your modules in the html header like so: (order doesn't matter)
 
 	<script async src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script async src="js/jqinit.js"></script>
+	<script async src="//rawgit.com/ScheintodX/jqinit.js/master/jqinit.js"></script>
 	<script async src="js/mymodule1.js"></script>
 	<script async src="js/mymodule2.js"></script>
 
-3. build your modules like this:
+ 3. build your modules like this:
 	
 	var jQInit = jQInit || [];
 
-	jQInit.push( [ 'myModule', function( $ ) {
+	jQInit.push( [ 'myModule1', function( $ ) {
 
 		// do stuff including jQuery
 
 	} ] );
 
-4. done. (really! Want to know more? read on)
+ 4. done. (really! Want to know more? read on)
 
 
 "Just another JavaScript loader"?
