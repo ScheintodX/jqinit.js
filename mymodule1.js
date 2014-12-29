@@ -8,7 +8,8 @@ jQInit.push( [ 'myModule1', function( $ ) {
 
 	$(function(){
 
-		console.log( "mod1 on dom ready" );
+		var $out = $('#out');
+		$out.text( $out.text + "Module1 dom ready\n" );
 
 	} );
 
@@ -16,8 +17,6 @@ jQInit.push( [ 'myModule1', function( $ ) {
 
 		say: function( text ){
 			console.log( "mod1 says '" + text + "'" );
-			var $out = $('#out');
-			$out.text( $out.text + "\n" + text );
 		}
 	}
 
