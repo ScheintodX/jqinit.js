@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>jQInit.js by ScheintodX</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>jQInit.js</h1>
+        <h2>Small jquery loader working with html5&#39;s async</h2>
+        <a href="https://github.com/ScheintodX/jqinit.js" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="everything-async" class="anchor" href="#everything-async" aria-hidden="true"><span class="octicon octicon-link"></span></a>Everything ASYNC</h1>
+
+<ul>
+<li>jsinit.js allows 'async' loading of <em>every</em> script in your html header. (Even itself!)</li>
+<li>It is pretty small (about 500 Byte minified)</li>
+<li>It provides dependency checking and some basic dependency injection</li>
+<li>It does nothing which isn't really needed but it can be extended to do more</li>
+<li>It's free as in 'free as a tramp'</li>
+</ul>
+
+<p><strong><em>ALHA</em></strong>
+(just to be sure)</p>
+
+<h2>
+<a id="try-it-out" class="anchor" href="#try-it-out" aria-hidden="true"><span class="octicon octicon-link"></span></a>Try it out:</h2>
+
+<p>In a new browser window open the console and go to: </p>
+
+<p>(<a href="https://rawgit.com/ScheintodX/jqinit.js/master/test.html">https://rawgit.com/ScheintodX/jqinit.js/master/test.html</a>)</p>
+
+<p>You might want to disable caching and turn some throttling on (or use a GRPS net) to see the effect.</p>
+
+<h2>
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<ol>
+<li><p>download <a href="jqinit.js">jqinit.js</a> and put it somewhere (or reference it directly from rawgit.com to try it out. s. below)</p></li>
+<li><p>put it and all your modules in the html header like so: (order doesn't matter)</p></li>
+</ol>
+
+<pre><code>    &lt;script async src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;script async src="//rawgit.com/ScheintodX/jqinit.js/master/jqinit.js"&gt;&lt;/script&gt;
+    &lt;script async src="js/mymodule1.js"&gt;&lt;/script&gt;
+    &lt;script async src="js/mymodule2.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<ol>
+<li>build your modules like this:</li>
+</ol>
+
+<pre><code>    var jQInit = jQInit || [];
+
+    jQInit.push( [ 'myModule1', function( $ ) {
+
+        // do stuff including jQuery
+
+    } ] );
+</code></pre>
+
+<ol>
+<li>done. (Really! Want to know more? Read on!)</li>
+</ol>
+
+<h2>
+<a id="just-another-javascript-loader" class="anchor" href="#just-another-javascript-loader" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Just another JavaScript loader"?</h2>
+
+<p>Quiet the opposite. There are numerous loaders for JavaScript. This one is different in that it doesn't load anything at all. Instead it lets the browser do all loading (something a browser is very good at) but manages the correct initialization of your modules. As a bonus you get some form of depencency injection. And of cause jqinit.js can be loaded asynchronously, too!</p>
+
+<p><img src="https://rawgit.com/ScheintodX/jqinit.js/master/comic.svg" alt="Comic"></p>
+
+<p>I know that there are solutions out there which are in wide use. I have looked at many of them and they didn't see them fit my needs.</p>
+
+<p>Some of the limitations I saw:</p>
+
+<ul>
+<li>Doesn't support async</li>
+<li>Need to put js code in every page</li>
+<li>Way to big</li>
+</ul>
+
+<p>jQuery is all about power in simplicity. So is this loader.</p>
+
+<p>Html5 gave us these nice tiny extension to the <code>&lt;script&gt;</code> tag called <code>defer</code> and <code>async</code>. But you can't use it to load jQuery because every plugin to jQuery needs jQuery to be there in the first place. So no way to load jQuery <em>after</em> it's modules, isn't it?</p>
+
+<p>Imagine:</p>
+
+<ul>
+<li>Being able to load jQuery and dependent modules async in arbitrary order.</li>
+<li>Having a well defined format for your own modules which can be loaded async</li>
+<li>Being able to load modules when they are needed.</li>
+<li>Don't have to care about order of initialization at all.</li>
+<li>Don't have to put scripts in every html page (s. ready.js)</li>
+<li>Using google's hosting for the jQuery core libs</li>
+<li>Have a simple mechanism of dependency injection as a bonus.</li>
+<li>Have a standard module format which encourages best practice and supports minification.</li>
+<li>Having all modules accessible under one namespace</li>
+<li>Doing all this in about 550 bytes (and that can still be optimized)</li>
+<li>And the best: Have the "Loader" itself being loaded asynchronously.</li>
+</ul>
+
+<p>So why did I put the word "Loader" in ampersands? Because what it does is rather the opposite of loading something. Indeed it lets all the loading do the browser which has very nifty methods of doing so. (Lookahead scanners and so on.)</p>
+
+<p>What it does is simply making sure that everything which has been loaded is initialized and executed in the correct order. And all of this in just a few lines of javascript. So lets call that thing: "jQInit" for now.</p>
+
+<h2>
+<a id="so-how-does-it-look-like" class="anchor" href="#so-how-does-it-look-like" aria-hidden="true"><span class="octicon octicon-link"></span></a>So how does it look like?</h2>
+
+<p>Simple: Put your stuff in the html header like you are used to, but add async:</p>
+
+<pre><code>&lt;script async src="//google/jQuery"&gt;&lt;/script&gt;
+&lt;script async src="/js/jqinit.js"&gt;&lt;/script&gt;
+&lt;script async src="/js/module1.js"&gt;&lt;/script&gt;
+&lt;script async src="/js/module2.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Looks simple. But just to make a point, you can have written it this way, too:</p>
+
+<pre><code>&lt;script async src="/js/module1.js"&gt;&lt;/script&gt;
+&lt;script async src="/js/module2.js"&gt;&lt;/script&gt;
+&lt;script async src="/js/jqinit.js"&gt;&lt;/script&gt;
+&lt;script async src="//google/jQuery"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>or any other order you want. (Think about it. This is the very nature of <em>async</em> loading ...)</p>
+
+<p>So how can a js module do this without being loaded itself? Sure there is a gotcha ... and well ... you have to do "something" of cause.</p>
+
+<p>But rest assured this something are just a few bytes. So lets look at the module format:</p>
+
+<p>You're of cause familiar with the simple module pattern:</p>
+
+<pre><code>var MyModule = (function($){
+
+    // do stuff here
+    return {
+        // put public stuff there
+    }
+
+})(jQuery);
+</code></pre>
+
+<p>So let's extend this with dependencies and while where at it inject them as well:</p>
+
+<pre><code>var MyModule = [ 'MyModule', 'MyOtherModule', function( MyOtherModule, $ ){
+
+    // follow pattern
+
+} ];
+</code></pre>
+
+<p>So this defines a module with the name of 'MyModule' and an dependency on 'MyOtherModule' (and of cause jQuery, this is what this is all about). </p>
+
+<p>But there is no execution of this code right there, isn't it? We'll get there in a moment. What we first need is "something" to store that stuff into. So lets create an array for that, but only it its not already there:</p>
+
+<pre><code>var jQInit = jQInit || [];
+</code></pre>
+
+<p>and put our module in:</p>
+
+<pre><code>jQInit.push( [ 'MyModule', 'MyOtherModule', function( MyOtherModule, $ ){
+
+    // follow pattern
+
+} ] );
+</code></pre>
+
+<p><em>And that's it.</em> Yes right. There is nothing more you have to do in a module. This one can be loaded asynchronously.</p>
+
+<h2>
+<a id="how-does-it-work" class="anchor" href="#how-does-it-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>How does it work?</h2>
+
+<p>So what is missing now? The magic of cause. This comes in when look at what jqinit.js does:</p>
+
+<p>For starters jQInit itself follows normal module pattern (of cause it doesn't need to register itself):</p>
+
+<p>Let's have a look into it. This is the most important part:</p>
+
+<p>jQInit.js:</p>
+
+<pre><code>var jQInit = (function( _jQInit ) {
+
+    // in case we are executed first
+    _jQInit = _jQInit || [];
+
+    // initialize dependencies which are already there
+    initializeModulesIfDependenciesAreMet();
+
+    // do the magic:
+    return {
+        // Simulate an array
+        push: function( module ) {
+
+            // Store in array
+            _jQInit.push( module );
+
+            // intialize newly pushed modules and others which are waiting for their dependencie:
+            initializeModulesIfDependenciesAreMet();
+        }
+    }
+
+} )( jQInit );
+</code></pre>
+
+<p>So it essentially swaps the array we used in the modules (remember: if it doesn't existed we simply created one) with its own structure.</p>
+
+<p>Then it simulates the only array operation we need: <code>push()</code>. So if it is executed before some of our modules are loaded the method to register them stays the same but now we can initialize them right away.</p>
+
+<h2>
+<a id="limitations--possible-extensions" class="anchor" href="#limitations--possible-extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Limitations / Possible extensions:</h2>
+
+<p>Currently this doesn't work without some "hackery" for jQuery Modules like Mobile or UI. This is because they don't follow any module syntax like it would be needed.
+Therefor an extra module is provided: jqinit.loader.js.
+It uses jQuery to load them and is only a few bytes long. The main drawback is that the modules's loading is delayed until jQuery is done loading. This is needed because the modules need jQuery to be there before they can start executing. So there is a slight delay here. Of cause this situation would improve greatly if jqinit would be absorbed in jQuery itself and the jQuery modules would follow it's module semantics.</p>
+
+<p>Some jQuery plugins (e.g. mobile) must be configured before they are loaded/executed. There should be a standard way for this kind of stuff. Currently one can use jqinit.loader.js to achieve this.</p>
+
+<p>One possible extension could be a simple way of loading modules while the application is already running. In the current state it is already as simple as <code>$('head').append( '&lt;script src="/js/somescript.js"&gt;&lt;/script&gt;' )</code> or <code>jQuery.getScript( 'js/somescript.js' )</code>. jqinit.loader.js provides another such a function (<code>Loader.load()</code>). Most probably that's already enough.</p>
+
+<p>Something I haven't even begun to think about is "dependency-loading". So there is currently no external definition of dependencies on a per file-basis. I like it this way because it keeps things simple but one could think about having some module-definition like: <code>{ ModA: "/js/moda.js", ModB: ... }</code> and have jQInit load them on demand according to dependencies. This certainly makes only sense for modules which aren't loaded anyway. But it could provide useful for large apps. But I think this could be added easily as plugin if needed.</p>
+
+<p>Something I intend to look into further is a way of passing content loaded via ajax/Loader to the modules so that they can do (re)initialization on it.</p>
+
+<p>There could be a need to "unload" modules. Let me know if you'd need that.</p>
+
+<p>There are many things e.g. RequireJS can do what jqinit.js cannot. This is on purpose because we want to keep it as small as possible.</p>
+
+<h1>
+<a id="how-do-i-do" class="anchor" href="#how-do-i-do" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I do?</h1>
+
+<h2>
+<a id="what-to-put-in-my-html5-page" class="anchor" href="#what-to-put-in-my-html5-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>What to put in my html5 page?</h2>
+
+<p>Simple. Just put the jQuery, jqinit.js and your own modules in <code>&lt;script&gt;</code> tags in the header. This should look like:</p>
+
+<pre><code>&lt;script src="//google/jQuery" async&gt;&lt;/script&gt;
+&lt;script src="/js/jqinit.js" async&gt;&lt;/script&gt;
+&lt;script src="/js/module1.js async&gt;&lt;/script&gt;
+&lt;script src="/js/module2.js async&gt;&lt;/script&gt;
+</code></pre>
+
+<p>It is a good idea to put jQuery first but it makes no big difference. The whole purpose of this lib is that it makes no difference.</p>
+
+<h2>
+<a id="how-do-i-write-a-module" class="anchor" href="#how-do-i-write-a-module" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I write a module?</h2>
+
+<p>The simplest possible module would look like this:</p>
+
+<p>mymodule.js:</p>
+
+<pre><code>var jQInit = jQInit || [];
+
+jQInit.push( [ 'MyModule', function( $ ) {
+
+    // code goes here
+}
+</code></pre>
+
+<p>But for your convenience I have although a basic pattern for you which shows a little more what you can do:</p>
+
+<p>mymodule.js:</p>
+
+<pre><code>"use strict";
+
+var jQInit = jQInit || [];
+
+jQInit.push( [ 'MyModule', function( $ ) {
+
+    // private stuff here
+
+    function init() {
+
+        // this is called in $(document).ready()
+    }
+
+    var module = {
+
+        // public stuff here
+
+        //e.g.
+        doPublicly: function(){
+
+        }
+
+    }
+
+    $( init ); // register init via jQuery.ready
+
+    return module;
+
+} ] );
+</code></pre>
+
+<p>of cause you could put <code>init</code> in <code>module</code> and make it public this way.</p>
+
+<h2>
+<a id="what-about-dependencies--dependency-injection" class="anchor" href="#what-about-dependencies--dependency-injection" aria-hidden="true"><span class="octicon octicon-link"></span></a>What about dependencies / dependency injection?</h2>
+
+<p>One part of jQInit's work is to check dependenc in order to only execute modules which have all dependencies met.</p>
+
+<p>So to tell jQInit what is needed just put your dependencies in like that:</p>
+
+<pre><code>jQInit.push( [ 'MyModule', 'MyFirstDependency', 'MySecondDependency', function( $ ) { ...
+</code></pre>
+
+<p>and jQInit knows that these modules have to be initialized first.</p>
+
+<p>If you not only want them to be initialized but also want to use them, just put them as arguments in the creator function
+and their public methods will be available:</p>
+
+<pre><code>jQInit.push( [ 'MyModule', 'First', 'Second', function( $, first, second ) {
+
+    first.doSomething();
+
+    second.doSomethingelse();
+}
+</code></pre>
+
+<h2>
+<a id="how-do-i-load-jqueryui--jquerymobile-etc" class="anchor" href="#how-do-i-load-jqueryui--jquerymobile-etc" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I load jQueryUI / jQueryMobile etc.?</h2>
+
+<p>This one is a bit tricky. Since they don't follow this pattern they can't be loaded asynchronously right away. This could improve if the jQuey people decided to put a loader like this directly in jQuery. For now you can use jqinit.loader.js` in that way:</p>
+
+<p>loadlibs.js:</p>
+
+<pre><code>"use strict";
+
+var jQInit = jQInit || [];
+
+jQInit.push( [ 'LoadLibs', 'Loader', function( $, Loader ){
+
+    Loader.load( "JQuery.Mobile", "https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js" )
+          .load( "JQuery.Validate", "//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js" )
+          ;
+
+} ] );
+</code></pre>
+
+<p>By the way: have a look at jqinit.loader.js code. There is not much to it. It itself is a jqinit module and you can just copy it and extend it if you need to.</p>
+
+<h2>
+<a id="and-when-i-need-jqueryui--jquerymobile-for-my-modules-to-work" class="anchor" href="#and-when-i-need-jqueryui--jquerymobile-for-my-modules-to-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>And when I need jQueryUI / jQueryMobile for my Modules to work?</h2>
+
+<p>Fear not. <code>jqinit.loder.js</code> to the rescue. As you can see in the code above every dependency you load gets a unique name. For the sake of this example we named them <code>JQuery.Mobile</code> and <code>JQuery.Validate</code> but you can name them whatever you want.</p>
+
+<p>The only other thing you have to do is put them into your module as dependency like so:</p>
+
+<pre><code>jQInit.push( [ 'MyModule', 'JQuery.Mobile', 'JQuery.Validate', function( $, first, second ) { ...
+</code></pre>
+
+<h2>
+<a id="how-do-i-access-my-module--check-if-my-module-has-been-loaded" class="anchor" href="#how-do-i-access-my-module--check-if-my-module-has-been-loaded" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I access my Module / check if my module has been loaded?</h2>
+
+<p>So know you have loaded your module and returned some structure from it. But how to access it anyway?</p>
+
+<p>Normally you don't have to call it directly because you can use dependency injection for that. But if you insist:</p>
+
+<p>jQInit keeps track of every module it has loaded and keeps them as key. Simply call for it this way:</p>
+
+<pre><code>jQInit.MyModule.doStuff()
+</code></pre>
+
+<p>or via string:</p>
+
+<pre><code>jQInit['MyModule'].meaning = 42;
+</code></pre>
+
+<p>to see if something is loaded just check it with:</p>
+
+<pre><code>if( jQInit.MyModule ) { ... do something ... }
+</code></pre>
+
+<h2>
+<a id="how-do-i-do-something-after-everything-has-loaded" class="anchor" href="#how-do-i-do-something-after-everything-has-loaded" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I do something after <em>everything</em> has loaded?</h2>
+
+<p>The real question here is: When is everything loaded? The very nature of this library is to make sure the stuff which is loaded is executed in the correct order. And because everything is loaded asynchronously it has no means of knowing what there is to come. So if you decide while you are running your app that you need to load some more modules, you can do so and they will be integrated.</p>
+
+<p>But feat not. There is a simple solution. When you say <em>everything</em> you normally have an idea what this everything is. So lets say you have 3 Modules: </p>
+
+<pre><code>First
+    &lt;- Second
+    &lt;- Third
+</code></pre>
+
+<p>where <code>Second</code> and <code>Third</code> depend on <code>First</code>.</p>
+
+<p>Just throw in an fourth module like so:</p>
+
+<pre><code>jQInit.push( [ 'Fourth', 'Second', 'Third' function( $ ){
+
+    // This is executed after all three other modules have loaded
+}
+</code></pre>
+
+<p>You don't need to specify <code>First</code> because the dependency mechanism will do that for you.</p>
+
+<h2>
+<a id="how-do-i-minify-stuff--put-it-all-together" class="anchor" href="#how-do-i-minify-stuff--put-it-all-together" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I minify stuff / put it all together?</h2>
+
+<p>That depends. Firstly the module format enables heavy minification because there are hardly global variables which need to keep their names. (And it is best practice to keep it that way. So put most of your code in the private area of a module.</p>
+
+<p>Then just use your minification-tool of choise or any online minification service.</p>
+
+<p>If you have written many modules and want to minify them you simply can concatenate them in one file and minify that. The order in which you do that is not important. Put jsinit.js in there, too. But you don't have to. Sometimes it is easier to find bugs if you have a file to point to. An sometimes (dependent on your setup) it is faster to have some more files which can be loaded in parallel.</p>
+
+<p>There is a light redundancy if putting it all in one file: <code>"use strict"</code> and <code>var jQInit = jQInit || []</code> will be there multiple times. Normally gzip will take care of that and it will make no big difference. But if every byte counts you could put jqinit.js in first and remove all occurrences both of those snippets.</p>
+
+<h2>
+<a id="what-is-the-state-of-this-project" class="anchor" href="#what-is-the-state-of-this-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is the state of this project?</h2>
+
+<p>Currently I call it <em>PRE ALPHA</em> just because it is so new and I want to be able to change stuff without notice if I see the need to.
+But it's not much code at all. So just copy it and patch it as you want.</p>
+
+<p>There is room for improvement:</p>
+
+<p>Firstly not very much has been done to reduce size. Currently readability matters more. But again: There is nothing here to stop you shrinking it.</p>
+
+<p>Secondly: I'm not the best Javascript coder under the sun. So if you find something which can be written more clearly / faster / better / greater just do it and send me your patch. If it doesn't extend the scope I will gladly put it in. </p>
+
+<h2>
+<a id="how-do-i-notify-jqinit-that-i-have-loaded-another-dependency-which-doesnt-follow-pattern" class="anchor" href="#how-do-i-notify-jqinit-that-i-have-loaded-another-dependency-which-doesnt-follow-pattern" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I notify jQInit that I have loaded another dependency which doesn't follow pattern?</h2>
+
+<p>This is what <code>jqinit.loader.js</code> does. Remember: jqinit replaces the array you created in your modules with it's own structure where it defines a <code>push</code> function in order to be compatible with array.</p>
+
+<p>In addition to that function it although defines a <code>register</code> function with this syntax: `register( name, module ). All that this does is remember the provided modules under the given name (as it would have done with push and the returned module from the creator function) and initialize modules which may depend on it.</p>
+
+<p>This is exacly what <code>jqinit.loader.js</code> does: load a javascript file and register it's result under the name given.</p>
+
+<h2>
+<a id="what-are-the-main-differences--advantages-via-requirejs" class="anchor" href="#what-are-the-main-differences--advantages-via-requirejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are the main differences / advantages via RequireJS</h2>
+
+<p>RequireJS has been there for a long while and it's great. It can do many things jqinit.js cannot. But this is on purpose because it followes another scope than jqinit.js.</p>
+
+<p>RequireJS is good if you:</p>
+
+<ul>
+<li>do large web application where it's additional size doesn't matter </li>
+<li>use node.js</li>
+<li>have many libraries from many different sources</li>
+<li>want to be able to configure things</li>
+<li>are forced to use what's called "standard" (AMD in this case)</li>
+</ul>
+
+<p>jqinit.js is good if you:</p>
+
+<ul>
+<li>do small to large websites where size does matter.</li>
+<li>care about loading speed. E.g. for mobile in slow networks.</li>
+<li>have mostly jQuery and your own modules and a few others which you might be able to patch. </li>
+<li>don't want to care to much about configuration but want something that "just works".</li>
+<li>are free to use what works for you</li>
+</ul>
+
+<h2>
+<a id="can-i-combine-jqinit-and-requirejs" class="anchor" href="#can-i-combine-jqinit-and-requirejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Can I combine jqinit and RequireJS?</h2>
+
+<p>Even though I haven't looked deep into this, I see no real reason why you shouldn't. There is nothing what could stop you loading jqinit modules with RequireJS.</p>
+
+<p>Perhaps there will be an RequireJS adaptor to jqinit sometimes.</p>
+
+<h2>
+<a id="why-not-use-amd-module-format" class="anchor" href="#why-not-use-amd-module-format" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why not use AMD module format</h2>
+
+<p>I would love to. Problem is: It won't work.</p>
+
+<p>AMD uses the <code>define()</code> function to define a module. In order to be able to use this it has to be defined before the module is loaded. So RequireJS needs to be loaded before any other module. This prevents it from beeing loaded <code>async</code>.</p>
+
+<h2>
+<a id="why-not-a-general-purpose-loader-but-only-for-jquery" class="anchor" href="#why-not-a-general-purpose-loader-but-only-for-jquery" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why not a general purpose loader but only for jQuery?</h2>
+
+<p>First of all: It's not a loader and not intended to be one. </p>
+
+<p>That said: The main reason it's only for jQuery is, that I only need it to be for jQuery. I think most people today use it for jQuery. Other frameworks (e.g. Angular) have their own ideas of how a module should look like and already have their DI in place there. </p>
+
+<p>Finally I'm still hoping that the jQuery people would put a system like it in the core sometimes. As fewer it does as higher the possibility for such a move is.</p>
+
+<h2>
+<a id="and-what-is-the-image-about" class="anchor" href="#and-what-is-the-image-about" aria-hidden="true"><span class="octicon octicon-link"></span></a>And what is the image about?</h2>
+
+<p>Since you asked: The image is my recreation of an panel from the famous graphic novel: "Asterix and the Goths" from René Goscinny and Albert Uderzo. Asterix and his friend Obelix accompany thier druid "Getafix" to the annual druid' conference where the druids present their best work. One of them manages to reduce soup to just a powder which is as he says easier to carry around than a cauldron. Hinted that he still needs a cauldron to recreate his soup he tells the amazed audience that he found a way to even reduce the cauldron to a powder.</p>
+
+<p>This is meant as a reference to the "asynchronous loader" which is loaded asynchronously itself.</p>
+
+<p>In the end the winner is of cause Getafix with his magic potion. So the powdered cauldron wasn't so ingenious after all. (I wonder why?)</p>
+
+<p>I can't put the original image in here because of copyright laws which forbid citations if they are only for entertaining purposes -- at least by german laws. So I had to recreate it.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/ScheintodX/jqinit.js/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/ScheintodX/jqinit.js/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/ScheintodX/jqinit.js"></a> is maintained by <a href="https://github.com/ScheintodX">ScheintodX</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
