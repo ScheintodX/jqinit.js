@@ -1,0 +1,34 @@
+{
+  "name": "jQInit",
+  "description": "Loads jQuery and modules completely asynchronously.",
+  "version": "0.0.2",
+  "licenses": [
+    {
+      "type": "PUBLIC DOMAIN",
+      "url": "https://github.com/ScheintodX/jqinit.js/blob/master/LICENSE"
+    }
+  ],
+  "title": "jqinit.js",
+  "keywords": [
+    "module",
+    "loader",
+    "init"
+  ],
+  "author": {
+    "url": "http://www.axon-e.de/flo",
+    "name": "Florian Bantner"
+  },
+  "maintainers": [
+    {
+      "name": "Florian Bantner",
+      "url": "http://www.axon-e.de/flo"
+    }
+  ],
+  "download": "https://github.com/ScheintodX/jqinit.js/blob/master/jsinit.js",
+  "homepage": "https://github.com/ScheintodX/jqinit.js",
+  "docs": "https://github.com/ScheintodX/jqinit.js",
+  "bugs": "https://github.com/ScheintodX/jqinit.js/issues",
+  "dependencies": {
+	"jquery": "1.0.0"
+  }
+}
