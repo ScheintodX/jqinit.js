@@ -1,5 +1,8 @@
 "use strict";
 
+// Like in all other modules in case this is the first lib loaded we have to define it:
+var jQInit = jQInit || [];
+
 /**
  * Module for initializing jQuery plugins
  *
@@ -9,14 +12,17 @@
  * this will be converted by init to:
  *
  * jQInit.Module = { object returned by creatorFunction }
+ *
+ * The old array is stored as private _jQInit internally
  * ...
  */
 
 // Like module pattern
 var jQInit = (function( _jQInit ) {
 
-	// In case this is the first lib loaded:
-	_jQInit = _jQInit || [];
+	// Now here we have:
+	//   jQInit: This having jQInit.Module the actual module
+	//  _jQInit: The old array having the descriptions
 
 	var $, jQInit = { 
 
@@ -43,7 +49,7 @@ var jQInit = (function( _jQInit ) {
 
 		// collect dependencies
 		var mods = []
-		for( var i=1; i<modDesc.length-1; i++ ){
+		for( var i=2; i<modDesc.length-1; i++ ){
 			var dep = jQInit[ modDesc[ i ] ];
 			if( ! dep ) return false;
 			mods.push( dep );
@@ -110,4 +116,4 @@ var jQInit = (function( _jQInit ) {
 
 	return jQInit;
 
-})( jQInit );
+} )( jQInit );
