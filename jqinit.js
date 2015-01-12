@@ -49,7 +49,7 @@ var jQInit = (function( _jQInit ) {
 
 		// collect dependencies
 		var mods = []
-		for( var i=2; i<modDesc.length-1; i++ ){
+		for( var i=1; i<modDesc.length-1; i++ ){
 			var dep = jQInit[ modDesc[ i ] ];
 			if( ! dep ) return false;
 			mods.push( dep );
