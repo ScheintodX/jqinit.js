@@ -1,5 +1,5 @@
 {
-  "name": "jQInit",
+  "name": "jqinit.js",
   "description": "Loads jQuery and modules completely asynchronously.",
   "version": "0.0.2",
   "licenses": [
@@ -29,6 +29,6 @@
   "docs": "https://github.com/ScheintodX/jqinit.js",
   "bugs": "https://github.com/ScheintodX/jqinit.js/issues",
   "dependencies": {
-	"jquery": "1.0.0"
+	"jquery": ">=1.0.0"
   }
 }
